@@ -9,3 +9,14 @@ mongoose.connect('mongodb+srv://devmeeple:<password>@cluster0.sc7iabh.mongodb.ne
     .then(() => console.log('MongoDB Connected...')) //
     .catch(err => console.log(err))
 ```
+
+## 커밋 컨벤션
+프로젝트를 진행할 때 효과적인 개발을 위해 프레임워크를 도입하여 생산성을 올리듯이 커밋 메시지도 컨벤션이 있다면 협업 시 생산성이 비약적으로 증가하겠다고 느꼈다. 이번 프로젝트에 사용할 커밋 컨벤션은 다음과 같다.  
+| 커밋 타입 | 설명                                               | 사용 예시                                      |
+|------------|----------------------------------------------------|------------------------------------------------|
+| `feat`     | 새로운 기능을 추가할 경우                           | `git commit -m "feat(auth): add new login page"` |
+| `fix`      | 버그를 수정할 경우                                 | `git commit -m "fix(navbar): correct the broken links"` |
+| `refactor` | 코드를 리팩토링할 경우 (기능이나 버그에 영향 없음) | `git commit -m "refactor(utils): optimize date parser"` |
+| `docs`     | 문서를 수정할 경우                                 | `git commit -m "docs: update README"`          |
+| `style`    | 코드 스타일을 변경할 경우 (로직 변경 없음)          | `git commit -m "style: format code"`           |
+| `test`     | 테스트 코드를 추가하거나 수정할 경우                | `git commit -m "test(auth): add login unit tests"` |
