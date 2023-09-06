@@ -1,0 +1,17 @@
+# Node.js dependencies
+node_modules
+
+# Environment variables
+.env
+
+# React build output
+build
+
+# Cache files
+.cache
+
+# Logs
+logs
+
+# macOS system files
+.DS_Store
