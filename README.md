@@ -20,3 +20,16 @@ mongoose.connect('mongodb+srv://devmeeple:<password>@cluster0.sc7iabh.mongodb.ne
 | `docs`     | 문서를 수정할 경우                                 | `git commit -m "docs: update README"`          |
 | `style`    | 코드 스타일을 변경할 경우 (로직 변경 없음)          | `git commit -m "style: format code"`           |
 | `test`     | 테스트 코드를 추가하거나 수정할 경우                | `git commit -m "test(auth): add login unit tests"` |
+
+## nodemon
+스프링 부트에 `devtools` 같은 패키지이다. 파일이 수정되면 `nodemon`이 변화를 감지하고 서버를 재시동해준다.
+```javascript
+{
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  }
+}
+
+```
+프로덕션 환경과 개발환경을 다음과 같이 분리하여 사용하였다.
