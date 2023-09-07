@@ -33,3 +33,10 @@ mongoose.connect('mongodb+srv://devmeeple:<password>@cluster0.sc7iabh.mongodb.ne
 
 ```
 프로덕션 환경과 개발환경을 다음과 같이 분리하여 사용하였다.
+
+## login
+12강은 문제가 많았다. mongoose가 버전업이 되어ㅂ 레거시 코드들이 되어버렸다. 많은 코드가 리팩토링 되었고 `async/await` , `Promise` 문법의 중요성이 강조되었다.
+
+[문법 참고자료](https://ko.javascript.info/)
+- async/await, Promise 이하 callback
+- try .. catch
