@@ -35,8 +35,15 @@ mongoose.connect('mongodb+srv://devmeeple:<password>@cluster0.sc7iabh.mongodb.ne
 프로덕션 환경과 개발환경을 다음과 같이 분리하여 사용하였다.
 
 ## login
-12강은 문제가 많았다. mongoose가 버전업이 되어ㅂ 레거시 코드들이 되어버렸다. 많은 코드가 리팩토링 되었고 `async/await` , `Promise` 문법의 중요성이 강조되었다.
+12강은 문제가 많았다. mongoose가 버전업이 되어 레거시 코드들이 되어버렸다. 많은 코드가 리팩토링 되었고 `async/await` , `Promise` 문법의 중요성이 강조되었다.
 
 [문법 참고자료](https://ko.javascript.info/)
 - async/await, Promise 이하 callback
 - try .. catch
+
+## 미들웨어
+[미들웨어](https://expressjs.com/ko/guide/using-middleware.html)는 웹 어플리케이션 개발 시 요청과 응답사이에 위치한 소프트웨어다. 요청과 응답을 쉽게 조작하고 필요한 작업을 추가할 수 있다. (코드의 재사용성을 올림)
+- 예시) 로깅, 인증
+- 마치 우체국과 같은 역할이다. 편지를 쓰면 우체국을 통해 검수 후 전달되듯이 컴퓨터가 메시지를 주고 받을 때 중간에서 이런저런 일을 처리해준다.
+
+
