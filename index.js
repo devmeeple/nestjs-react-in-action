@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // application/json
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI)
@@ -20,7 +22,59 @@ mongoose.connect(config.mongoURI)
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
-})
+});
+
+app.post('/api/users/register', async (req, res) => {
+    const user = new User(req.body);
+    try {
+        const userInfo = await user.save();
+        res.status(200).json({ success: true });
+    } catch (err) {
+        res.json({ success: false, err });
+    }
+});
+
+app.post('/api/users/login', async (req, res) => {
+    try {
+        // 요청된 이메일을 데이터베이스에서 있는지 확인.
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.json({
+                loginSuccess: false,
+                message: '제공된 이메일에 해당하는 유저가 없습니다.'
+            });
+        }
+
+        // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 일치하는지 확인
+        const isMatch = await user.comparePassword(req.body.password);
+        if (!isMatch) {
+            return res.json({
+                loginSuccess: false,
+                message: '비밀번호가 일치하지 않습니다.'
+            });
+        }
+
+        // 비밀번호까지 일치하다면 토큰을 생성하기.
+        const tokenUser = await user.generateToken();
+
+        // 토큰을 저장한다. 쿠키, 로컬 스토리지 아래 방식은 쿠키에 저장
+        res.cookie('x_auth', tokenUser.token)
+            .status(200)
+            .json({
+                loginSuccess: true,
+                userId: tokenUser._id
+            });
+
+    } catch (err) {
+        console.log('에러 발생:', err);
+        return res.status(500).json({ success: false, err} );
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+});
 
 // Callback 사용 MongooseError: Model.prototype.save() no longer accepts a callback 발생
 // 최신 Mongoose 에서는 API가 업데이트 되어 지원하지 않는다. 따라서 새로운 콜백을 학습하여 적용할 필요가 있다. async/await 또는 Promise
@@ -37,21 +91,17 @@ app.post('/register', (req, res) => {
         })
     })
 })
- */
+*/
 
-app.post('/register', async (req, res) => {
-    const user = new User(req.body);
-    try {
-        const userInfo = await user.save();
-        res.status(200).json({ success: true });
-    } catch (err) {
-        res.json({ success: false, err });
-    }
-});
-
-app.post('/login', (req, res) => {
+// MongooseError: Model.findOne() no longer accepts a callback
+/*
+app.post('/api/users/login', (req, res) => {
     // 요청된 이메일을 데이터베이스에서 있는지 찾음.
     User.findOne({email: req.body.email}, (err, user) => {
+        if (err) {
+            console.log('User.findOne 에러:', err);
+            return res.status(500).send(err);
+        }
         if (!user) {
             return res.json({
                 loginSuccess: false,
@@ -65,14 +115,17 @@ app.post('/login', (req, res) => {
             } else {
                 // 비밀번호 까지 맞다면 토큰을 생성하기.
                 user.generateToken((err, user) => {
+                    if (err) {
+                        return res.status(400).send(err);
+                    }
 
+                    // 토큰을 저장한다. 쿠키, 로컬 스토리지 아래 방식은 쿠키에 저장
+                    res.cookie('x_auth', user.token)
+                        .status(200)
+                        .json({ loginSuccess: true, userId: user._id})
                 });
             }
         });
     });
 });
-
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+ */

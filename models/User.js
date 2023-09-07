@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10
+const jwt = require('jsonwebtoken')
+
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -56,17 +58,56 @@ userSchema.pre('save', function (next) {
         next();
     }
 });
+userSchema.methods.comparePassword = async function (planPassword) {
+    try {
+        return await bcrypt.compare(planPassword, this.password);
+    } catch (err) {
+        throw err;
+    }
+};
 
+userSchema.methods.generateToken = async function () {
+    try {
+        this.token = jwt.sign(this._id.toHexString(), 'secretToken');
+        await this.save();
+        return this;
+    } catch (err) {
+        throw err;
+    }
+};
+
+/*
 userSchema.methods.comparePassword = function (plainPassword, cb) {
     // plainPassword 암호화된 비밀번호와 비교
     bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
         if (err) {
             return cb(err);
         } else {
-            cb(null, isMatch)
+            cb(null, isMatch);
         }
     });
 };
+ */
+
+/*
+MongooseError: Model.prototype.save() no longer accepts a callback
+메서드가 콜백을 더 이상 지원하지 않는다.
+userSchema.methods.generateToken = function (cb) {
+
+    var user = this;
+
+    // jsonwebtoken을 이용해서 token 생성하기
+    var token = jwt.sign(user._id.toHexString(), 'secretToken');
+    user.token = token;
+    user.save(function (err, user) {
+        if (err) {
+            return cb(err);
+        } else {
+            cb(null, user);
+        }
+    });
+};
+ */
 
 const User = mongoose.model('User', userSchema)
 
