@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
 /**
  * Mongoose의 pre 메서드를 사용, 'save' 이벤트가 발생하기 전 실행될 로직을 정의한다.
  * 비밀번호가 변경될 경우에만 암호화 작업을 수행한다.
- * 
+ *
  * 문제점
  * 비동기 처리의 중첩: bcrypt.genSalt, bcrypt.hash 함수의 콜백 중첩이 발생했다.
  * 에러처리의 중복이 발생
@@ -78,6 +78,45 @@ userSchema.methods.generateToken = async function () {
         throw err;
     }
 };
+
+userSchema.statics.findByToken = async function (token) {
+    try {
+        // 토큰을 decode
+        const decoded = await new Promise((resolve, reject) => {
+            jwt.verify(token, 'secretToken', (err, decoded) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(decoded);
+            });
+        });
+
+        // 유저 아이디를 이용해서 유저를 찾은 다음,
+        // 클라이언트에서 가져온 token과 DB에 보관된 토큰이 일치하는지 확인
+        return await this.findOne({'_id': decoded, 'token': token});
+
+    } catch (err) {
+        throw new Error(err);
+    }
+};
+/*
+MongooseError: Model.findOne() no longer accepts a callback
+userSchema.statics.findByToken = function (token, cb) {
+    var user = this;
+
+    // 토큰을 decode 한다.
+    jwt.verify(token, 'secretToken', function (err, decoded) {
+        // 유저 아이디를 이용해서 유저를 찾은 다음에 클라이언트에서 가져온 token과 DB에 보관된 토큰이 일치하는지 확인
+        user.findOne({'_id': decoded, 'token': token}, function (err, user) {
+            if (err) {
+                return cb(err);
+            }
+            cb(null, user)
+        });
+    });
+};
+ */
+
 /*
 콜백함수 학습 후 리팩토링 필요
 userSchema.pre('save', function (next) {

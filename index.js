@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 
+const { auth} = require('./middleware/auth');
 const { User } = require('./models/User');
 
 // application/x-www-form-urlencoded
@@ -72,6 +73,42 @@ app.post('/api/users/login', async (req, res) => {
     }
 });
 
+app.get('/api/users/auth', auth, (req, res) => {
+    // 여기 까지 미들웨어를 통과했다는 것은 인증 성공이라는 뜻
+    res.status(200).json({
+        _id: req.user._id,
+        // role 0 -> 일반유저 / 0이 아니면 관리자
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    });
+});
+
+app.get('/api/users/logout', auth, async (req, res) => {
+    try {
+        const user = await User.findOneAndUpdate({ _id: req.user._id }, { token: '' });
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: '사용자를 찾을 수 없습니다.'
+            })
+        }
+
+        return res.status(200).send({
+            success: true
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false, err
+        });
+    }
+});
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 });
@@ -127,5 +164,20 @@ app.post('/api/users/login', (req, res) => {
             }
         });
     });
+});
+ */
+
+/*
+MongooseError: Model.findOneAndUpdate() no longer accepts a callback
+app.get('/api/users/logout', auth, (req, res) => {
+
+    User.findOneAndUpdate({ _id: req.user._id },
+        { token: ''}, (err, user) => {
+            if (err) return res.json({success: false, err});
+            return res.status(200).send({
+                success: true
+            })
+        }
+    );
 });
  */
