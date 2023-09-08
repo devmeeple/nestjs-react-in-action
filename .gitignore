@@ -18,3 +18,24 @@ logs
 
 # 개발환경 설정
 dev.js
+
+# Additional .gitignore rules
+
+# Ignore node_modules in the client folder
+/client/node_modules
+
+# Ignore build folder in the client
+/client/build
+
+# Ignore different .env files in the client
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+
+# Ignore lock files in the client if needed
+#/client/yarn.lock
+#/client/package-lock.json
+
+# If using Java(Spring Boot) for the server, ignore build folder
+#/server/target/
