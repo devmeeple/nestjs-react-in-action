@@ -46,4 +46,9 @@ mongoose.connect('mongodb+srv://devmeeple:<password>@cluster0.sc7iabh.mongodb.ne
 - 예시) 로깅, 인증
 - 마치 우체국과 같은 역할이다. 편지를 쓰면 우체국을 통해 검수 후 전달되듯이 컴퓨터가 메시지를 주고 받을 때 중간에서 이런저런 일을 처리해준다.
 
+## 바벨
+구형 브라우저에서 최신 자바스크립트 문법이 동작하도록 변환해줌
+
+## Webpack
+많은 모듈들을 간단하게 해준다.
 
