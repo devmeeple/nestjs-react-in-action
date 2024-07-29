@@ -1,41 +1,35 @@
-# Node.js dependencies
-node_modules
-
-# Environment variables
-.env
-
-# React build output
-build
-
-# Cache files
-.cache
+# compiled output
+/dist
+/node_modules
 
 # Logs
 logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
-# macOS system files
+# OS
 .DS_Store
 
-# 개발환경 설정
-dev.js
+# Tests
+/coverage
+/.nyc_output
 
-# Additional .gitignore rules
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-# Ignore node_modules in the client folder
-/client/node_modules
-
-# Ignore build folder in the client
-/client/build
-
-# Ignore different .env files in the client
-/client/.env.local
-/client/.env.development.local
-/client/.env.test.local
-/client/.env.production.local
-
-# Ignore lock files in the client if needed
-#/client/yarn.lock
-#/client/package-lock.json
-
-# If using Java(Spring Boot) for the server, ignore build folder
-#/server/target/
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
