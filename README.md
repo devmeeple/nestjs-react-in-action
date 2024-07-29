@@ -72,4 +72,8 @@ CREATE TABLE users
 );
 ```
 
+**<참고 자료>**
+
+* [MDN Web Docs 'Express Tutorial Part 3: Using a Database (with Mongoose)'](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose)
+
 [^1]: [MongoDB '스키마'](https://www.mongodb.com/ko-kr/docs/atlas/app-services/schemas/)
