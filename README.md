@@ -110,3 +110,10 @@ nest g co users
 **<참고 자료>**
 
 * [NestJS 'Configuration'](https://docs.nestjs.com/techniques/configuration)
+
+# 10. 비밀번호 암호화
+
+데이터베이스 비밀번호가 평문으로 들어가는 문제가 있다. 보안에 좋지 않다.
+
+* 데이터베이스에 암호화된 비밀번호를 저장한다.
+    * 회원가입 또는 비밀번호를 변경할 때만 비밀번호를 변경한다.
