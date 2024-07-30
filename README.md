@@ -44,17 +44,17 @@ export const User = mongoose.model('User', userSchema);
 모델은 `User`가 되고 스키마는 `userSchema`가 된다.
 
 ```typescript
-@Entity() 
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @Column()
   name: string;
-  
-  @Column({ unique: true})
+
+  @Column({ unique: true })
   email: string;
-  
+
   @Column()
   password: string;
 }
@@ -83,3 +83,20 @@ yarn add @nestjs/typeorm typeorm sqlite3
 * [MDN Web Docs 'Express Tutorial Part 3: Using a Database (with Mongoose)'](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose)
 
 [^1]: [MongoDB '스키마'](https://www.mongodb.com/ko-kr/docs/atlas/app-services/schemas/)
+
+# 7. 회원가입
+
+**회원가입**
+
+* 회원가입에 성공한다. 필수 값은 다음과 같다.
+    * `이름`, `이메일`, `비밀번호`
+    * `{ success: true }`를 반환한다.
+
+```shell
+nest g service users
+nest g controller users
+
+# Alias
+nest g s users
+nest g co users
+```
