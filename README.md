@@ -100,3 +100,13 @@ nest g controller users
 nest g s users
 nest g co users
 ```
+
+# 9. 환경설정
+
+외부에 공개되면 안 되는 정보(환경설정)를 분리한다.
+
+* ConfigModule을 도입한다.
+
+**<참고 자료>**
+
+* [NestJS 'Configuration'](https://docs.nestjs.com/techniques/configuration)
